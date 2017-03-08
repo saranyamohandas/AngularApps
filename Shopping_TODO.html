@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My App</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!-- load angular via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.6/angular-route.min.js"></script>
+    
+</head>
+<body ng-app="myApp">
+
+ <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand active" href="#">My App</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#Shopping">Shopping List</a></li>
+            <li><a href="#Todo">Todo</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <!-- ng-view routes between controller when a particular template is chosen -->
+    <div class="container" ng-view>
+       
+        
+    </div>
+<script>
+  
+    var myApp = angular.module("myApp",['ngRoute']);
+    myApp.config(function($routeProvider){
+         $routeProvider
+         .when('/',{
+             templateUrl: 'ShoppingRoute/home.html'
+         })
+         .when('/Shopping',{
+             templateUrl : "ShoppingRoute/Shopping.html",
+             controller : "shoppingCntrl"
+         })
+         .when('/Todo',{
+             templateUrl: "ShoppingRoute/Todo.html",
+             controller: "todoCntrl"
+         })
+    });
+    myApp.controller('shoppingCntrl',['$scope','$log','$location',function($scope,$log,$location){
+    $scope.shopList = ["Milk","Groceries"];
+    $scope.addList = function(){
+        if(!$scope.addOn) { return;}
+        if($scope.shopList.indexOf($scope.addOn) == -1 ){
+            $scope.shopList.push($scope.addOn);
+            $scope.addOn = "";
+            $log.info($location.path());
+        } else {
+            $scope.errMsg = "Item already added!"
+            $log.info($location.path());
+        }
+    }
+    $scope.removeItem = function(idx){
+        $scope.shopList.splice(idx,1);
+        $log.info($location.path());
+        };
+        
+    }]);
+    myApp.controller('todoCntrl',['$scope',function($scope){
+       
+        $scope.lists = [];
+        $scope.addList= function(){
+            $scope.lists.push({list:$scope.myList,remove:false});
+            $scope.myList = "";
+        };
+       $scope.removeList = function(){
+           var oldList = $scope.lists;
+            $scope.lists = [];
+           // $scope.oldList = $scope.lists;
+            angular.forEach(oldList,function(items){
+              //  console.log(items.remove);  
+                //console.log(!items.remove);
+                if(!items.remove){
+                   //newList.push(items);
+                    
+                    $scope.lists.push(items);
+                   // console.log(items);
+                }
+                console.log($scope.lists);
+                //$scope.lists = newList;
+            });
+            
+            }; 
+        
+    }]);
+</script>
+ 
+</body>
+</html>

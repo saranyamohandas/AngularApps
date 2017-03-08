@@ -1,0 +1,30 @@
+<div class="container"> 
+<!-- Panels -->
+<div class="panel panel-success" >
+  <div class="panel-heading">My Shopping List</div>
+  
+  <ul class="list-group"  ng-repeat="items in shopList track by $index">
+    <li class="list-group-item">{{items}} 
+    <button type="button" class="close" aria-label="close" ng-click="removeItem($index)"><span aria-hidden="true">&times;</span> </button>
+    </li>
+  </ul>
+   
+  <div class="panel-footer"> 
+  <form class="form-inline" ng-submit="addList()">
+          <div class="form-group">
+             <div class="input-group"> 
+              <label class="sr-only">Add items here</label>
+              <input type="text" placeholder="Add items here.." class="form-control" ng-model="addOn">
+              <span class="input-group-btn">
+              <button class="btn btn-success">Add</button> 
+              </span>
+              </div>
+              
+          </div>
+    </form>
+    </div>
+</div>
+<div class="alert alert-danger alert-dismissable" ng-show="errMsg" role="alert">
+<a href="#Shopping" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{errMsg}} </div>
+ 
+</div>
